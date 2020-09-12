@@ -10,7 +10,7 @@ namespace MeetUp.Controllers
     [Route("api/meetup")]
     public class MeetupController : ControllerBase
     {
-        private MeetupContext _meetupContext;
+        private readonly MeetupContext _meetupContext;
 
         public MeetupController(MeetupContext meetupContext)
         {
@@ -20,7 +20,8 @@ namespace MeetUp.Controllers
         [HttpGet]
         public ActionResult<List<Meetup>> Get()
         {
-            return _meetupContext.Meetups.ToList();
+            var meetups = _meetupContext.Meetups.ToList();
+            return Ok(meetups);
         }
     }
 }
