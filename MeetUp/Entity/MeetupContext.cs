@@ -8,7 +8,7 @@ namespace MeetUp.Entity
 {
     public class MeetupContext : DbContext
     {
-        private readonly string _connectionString = "Server=(localdb)\\mssqllocaldb;Database=MeetupDb;Trusted_Connection=True;";
+        private readonly string _connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         public DbSet<Meetup> Meetups { get; set; }
         public DbSet<Lecture> Lectures { get; set; }
