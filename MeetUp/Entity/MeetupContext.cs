@@ -13,6 +13,8 @@ namespace MeetUp.Entity
         public DbSet<Meetup> Meetups { get; set; }
         public DbSet<Lecture> Lectures { get; set; }
         public DbSet<Location> Locations { get; set; }
+        public DbSet<Role> Roles { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -24,6 +26,9 @@ namespace MeetUp.Entity
             modelBuilder.Entity<Meetup>()
                 .HasMany(m => m.Lectures)
                 .WithOne(l => l.Meetup);
+
+            modelBuilder.Entity<User>()
+                .HasOne(u => u.Role);
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
