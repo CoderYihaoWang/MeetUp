@@ -47,6 +47,10 @@ namespace MeetUp.Controllers
         [HttpPost]
         public ActionResult Post([FromBody] MeetupDto model)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var meetup = _mapper.Map<Meetup>(model);
             _meetupContext.Meetups.Add(meetup);
             _meetupContext.SaveChanges();
