@@ -78,5 +78,19 @@ namespace MeetUp.Controllers
             _meetupContext.SaveChanges();
             return NoContent();
         }
+
+        [HttpDelete("{name}")]
+        public ActionResult Delete(string name)
+        {
+            var meetup = _meetupContext.Meetups
+                .FirstOrDefault(m => m.Name.Replace(" ", "-").ToLower() == name.ToLower());
+            if (meetup is null)
+            {
+                return NotFound();
+            }
+            _meetupContext.Meetups.Remove(meetup);
+            _meetupContext.SaveChanges();
+            return NoContent();
+        }
     }
 }
