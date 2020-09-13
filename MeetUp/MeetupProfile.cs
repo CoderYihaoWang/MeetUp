@@ -19,9 +19,8 @@ namespace MeetUp
 
             CreateMap<MeetupDto, Meetup>();
 
-            CreateMap<LectureDto, Lecture>();
-
-            CreateMap<Lecture, LectureDto>();
+            CreateMap<Lecture, LectureDto>()
+                .ReverseMap();
         }
     }
 }

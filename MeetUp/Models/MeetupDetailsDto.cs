@@ -14,6 +14,6 @@ namespace MeetUp.Models
         public string City { get; set; }
         public string Street { get; set; }
         public string PostCode { get; set; }
-
+        public List<LectureDto> Lectures { get; set; }
     }
 }

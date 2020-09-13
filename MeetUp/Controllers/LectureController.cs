@@ -22,6 +22,7 @@ namespace MeetUp.Controllers
             _mapper = mapper;
         }
 
+        [HttpGet]
         public ActionResult<List<LectureDto>> Get(string meetupName)
         {
             var meetup = _meetupContext.Meetups
