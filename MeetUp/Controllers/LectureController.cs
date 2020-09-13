@@ -56,5 +56,40 @@ namespace MeetUp.Controllers
             _meetupContext.SaveChanges();
             return Created($"api/meetup/{meetupName}", null);
         }
+
+        [HttpDelete]
+        public ActionResult Delete(string meetupName)
+        {
+            var meetup = _meetupContext.Meetups
+                .Include(m => m.Lectures)
+                .FirstOrDefault(m => m.Name.Replace(" ", "-").ToLower() == meetupName.ToLower());
+            if (meetup is null)
+            {
+                return NotFound();
+            }
+            _meetupContext.Lectures.RemoveRange(meetup.Lectures);
+            _meetupContext.SaveChanges();
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public ActionResult Delete(string meetupName, int id)
+        {
+            var meetup = _meetupContext.Meetups
+                .Include(m => m.Lectures)
+                .FirstOrDefault(m => m.Name.Replace(" ", "-").ToLower() == meetupName.ToLower());
+            if (meetup is null)
+            {
+                return NotFound();
+            }
+            var lecture = meetup.Lectures.FirstOrDefault(l => l.Id == id);
+            if (lecture is null)
+            {
+                return NotFound();
+            }
+            _meetupContext.Lectures.Remove(lecture);
+            _meetupContext.SaveChanges();
+            return NoContent();
+        }
     }
 }
