@@ -24,12 +24,36 @@ namespace MeetUp.Controllers
 
         public ActionResult<List<LectureDto>> Get(string meetupName)
         {
-            var lectures = _meetupContext.Meetups
+            var meetup = _meetupContext.Meetups
                 .Include(m => m.Lectures)
-                .FirstOrDefault(m => m.Name.Replace(" ", "-").ToLower() == meetupName.ToLower())
-                ?.Lectures;
+                .FirstOrDefault(m => m.Name.Replace(" ", "-").ToLower() == meetupName.ToLower());
+            if (meetup is null)
+            {
+                return NotFound();
+            }
+            var lectures = meetup.Lectures;
             var lectureDtos = _mapper.Map<List<LectureDto>>(lectures);
             return Ok(lectureDtos);
+        }
+
+        [HttpPost]
+        public ActionResult Post(string meetupName, [FromBody] LectureDto model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var meetup = _meetupContext.Meetups
+                .Include(m => m.Lectures)
+                .FirstOrDefault(m => m.Name.Replace(" ", "-").ToLower() == meetupName.ToLower());
+            if (meetup is null)
+            {
+                return NotFound();
+            }
+            var lecture = _mapper.Map<Lecture>(model);
+            meetup.Lectures.Add(lecture);
+            _meetupContext.SaveChanges();
+            return Created($"api/meetup/{meetupName}", null);
         }
     }
 }
