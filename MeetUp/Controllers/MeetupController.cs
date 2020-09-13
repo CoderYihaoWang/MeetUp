@@ -29,5 +29,19 @@ namespace MeetUp.Controllers
             var meetupDtos = _mapper.Map<List<MeetupDetailsDto>>(meetups);
             return Ok(meetupDtos);
         }
+
+        [HttpGet("{name}")]
+        public ActionResult<MeetupDetailsDto> Get(string name)
+        {
+            var meetup = _meetupContext.Meetups
+                .Include(m => m.Location)
+                .FirstOrDefault(m => m.Name.Replace(" ", "-").ToLower() == name);
+            if (meetup is null)
+            {
+                return NotFound();
+            }
+            var meetupDto = _mapper.Map<MeetupDetailsDto>(meetup);
+            return Ok(meetupDto);
+        }
     }
 }
