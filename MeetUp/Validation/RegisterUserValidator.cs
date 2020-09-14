@@ -29,7 +29,6 @@ namespace MeetUp.Validation
                     context.AddFailure("Email", "That email address has been taken");
                 }
             });
-            
         }
     }
 }
