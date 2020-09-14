@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using MeetUp.Entity;
+using MeetUp.Models;
+using MeetUp.Validation;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -30,7 +34,8 @@ namespace MeetUp
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddFluentValidation();
+            services.AddScoped<IValidator<RegisterUserDto>, RegisterUserValidator>();
             services.AddDbContext<MeetupContext>();
             services.AddScoped<MeetupSeeder>();
             services.AddAutoMapper(this.GetType().Assembly);
