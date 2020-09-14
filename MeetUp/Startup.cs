@@ -56,7 +56,10 @@ namespace MeetUp
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.JwtKey))
                 };
             });
-
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("HasNationality", builder => builder.RequireClaim("Nationality", "German", "English"));
+            });
             services.AddControllers().AddFluentValidation();
             services.AddScoped<IValidator<RegisterUserDto>, RegisterUserValidator>();
             services.AddDbContext<MeetupContext>();
