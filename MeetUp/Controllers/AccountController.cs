@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using MeetUp.Entity;
 using MeetUp.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -13,10 +14,12 @@ namespace MeetUp.Controllers
     public class AccountController : ControllerBase
     {
         private readonly MeetupContext _meetupContext;
+        private readonly IPasswordHasher<User> _passwordHasher;
 
-        public AccountController(MeetupContext meetupContext)
+        public AccountController(MeetupContext meetupContext, IPasswordHasher<User> passwordHasher)
         {
             _meetupContext = meetupContext;
+            _passwordHasher = passwordHasher;
         }
 
         [HttpPost("register")]
@@ -33,6 +36,8 @@ namespace MeetUp.Controllers
                 DateOfBirth = registerUserDto.DateOfBirth,
                 RoleId = registerUserDto.RoleId
             };
+            var passwordHash = _passwordHasher.HashPassword(user, registerUserDto.Password);
+            user.PasswordHash = passwordHash;
             _meetupContext.Users.Add(user);
             _meetupContext.SaveChanges();
             return Ok();
