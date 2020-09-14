@@ -49,6 +49,7 @@ namespace MeetUp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Moderator")]
         public ActionResult Post([FromBody] MeetupDto model)
         {
             if (!ModelState.IsValid)
