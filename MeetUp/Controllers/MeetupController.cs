@@ -32,6 +32,7 @@ namespace MeetUp.Controllers
         
         [HttpGet]
         [AllowAnonymous]
+        [NationalityFilter("German,Russian")]
         public ActionResult<List<MeetupDetailsDto>> Get()
         {
             var meetups = _meetupContext.Meetups.Include(m => m.Location).ToList();
@@ -41,6 +42,7 @@ namespace MeetUp.Controllers
 
         [HttpGet("{name}")]
         [Authorize(Policy = "AtLeast18")]
+        [NationalityFilter("English")]
         public ActionResult<MeetupDetailsDto> Get(string name)
         {
             var meetup = _meetupContext.Meetups
