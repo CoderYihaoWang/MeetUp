@@ -42,8 +42,8 @@ namespace MeetUp
         {
             var jwtOptions = new JwtOptions();
             Configuration.GetSection("jwt").Bind(jwtOptions);
-
             services.AddSingleton(jwtOptions);
+
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = "Bearer";
@@ -59,23 +59,34 @@ namespace MeetUp
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtOptions.JwtKey))
                 };
             });
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("HasNationality", builder => builder.RequireClaim("Nationality", "German", "English"));
                 options.AddPolicy("AtLeast18", builder => builder.AddRequirements(new MinimumAgeRequirement(18)));
             });
+
             services.AddControllers().AddFluentValidation();
+
             services.AddScoped<IValidator<RegisterUserDto>, RegisterUserValidator>();
+
             services.AddDbContext<MeetupContext>();
+
             services.AddScoped<MeetupSeeder>();
+
             services.AddAutoMapper(this.GetType().Assembly);
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MeetupAPI", Version = "v1" });
             });
+
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
+
             services.AddScoped<IJwtProvider, JwtProvider>();
+
             services.AddScoped<IAuthorizationHandler, MinimumAgeHandler>();
+
             services.AddScoped<IAuthorizationHandler, ResourceOperationHandler>();
         }
 
