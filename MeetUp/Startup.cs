@@ -76,6 +76,7 @@ namespace MeetUp
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddScoped<IJwtProvider, JwtProvider>();
             services.AddScoped<IAuthorizationHandler, MinimumAgeHandler>();
+            services.AddScoped<IAuthorizationHandler, ResourceOperationHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

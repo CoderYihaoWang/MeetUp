@@ -19,6 +19,9 @@ namespace MeetUp.Entity
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Meetup>()
+                .HasOne(m => m.CreatedBy);
+            
+            modelBuilder.Entity<Meetup>()
                 .HasOne(m => m.Location)
                 .WithOne(l => l.Meetup)
                 .HasForeignKey<Location>(l => l.MeetupId);

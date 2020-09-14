@@ -10,9 +10,9 @@ namespace MeetUp.Authorization
 {
     public class MinimumAgeHandler : AuthorizationHandler<MinimumAgeRequirement>
     {
-        private ILogger _logger;
+        private readonly ILogger<MinimumAgeHandler> _logger;
 
-        public MinimumAgeHandler(ILogger logger)
+        public MinimumAgeHandler(ILogger<MinimumAgeHandler> logger)
         {
             _logger = logger;
         }
