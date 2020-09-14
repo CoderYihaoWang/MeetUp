@@ -6,10 +6,13 @@ using System.Threading.Tasks;
 using AutoMapper;
 using FluentValidation;
 using FluentValidation.AspNetCore;
+using FluentValidation.Validators;
+using MeetUp.Authorization;
 using MeetUp.Entity;
 using MeetUp.Identity;
 using MeetUp.Models;
 using MeetUp.Validation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -59,6 +62,7 @@ namespace MeetUp
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("HasNationality", builder => builder.RequireClaim("Nationality", "German", "English"));
+                options.AddPolicy("AtLeast18", builder => builder.AddRequirements(new MinimumAgeRequirement(18)));
             });
             services.AddControllers().AddFluentValidation();
             services.AddScoped<IValidator<RegisterUserDto>, RegisterUserValidator>();
@@ -71,6 +75,7 @@ namespace MeetUp
             });
             services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
             services.AddScoped<IJwtProvider, JwtProvider>();
+            services.AddScoped<IAuthorizationHandler, MinimumAgeHandler>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
