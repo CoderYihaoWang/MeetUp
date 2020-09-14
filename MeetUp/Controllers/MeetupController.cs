@@ -16,7 +16,7 @@ namespace MeetUp.Controllers
 {
     [Route("api/meetup")]
     [Authorize]
-    [TimeTrackFilter]
+    [ServiceFilter(typeof(TimeTrackFilter))]
     public class MeetupController : ControllerBase
     {
         private readonly MeetupContext _meetupContext;
@@ -31,7 +31,6 @@ namespace MeetUp.Controllers
         }
         
         [HttpGet]
-        [AllowAnonymous]
         [NationalityFilter("German,Russian")]
         public ActionResult<List<MeetupDetailsDto>> Get()
         {

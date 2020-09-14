@@ -90,6 +90,8 @@ namespace MeetUp
             services.AddScoped<IAuthorizationHandler, MinimumAgeHandler>();
 
             services.AddScoped<IAuthorizationHandler, ResourceOperationHandler>();
+
+            services.AddScoped<TimeTrackFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

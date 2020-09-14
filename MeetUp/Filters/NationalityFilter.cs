@@ -19,7 +19,7 @@ namespace MeetUp.Filters
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            var nationality = context.HttpContext.User.FindFirst(c => c.Type == "Nationality").Value;
+            var nationality = context.HttpContext.User.FindFirst(c => c.Type == "Nationality")?.Value;
 
             if (!_nationalities.Any(n => n == nationality))
             {
