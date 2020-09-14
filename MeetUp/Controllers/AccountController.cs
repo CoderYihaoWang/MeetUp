@@ -13,12 +13,10 @@ namespace MeetUp.Controllers
     public class AccountController : ControllerBase
     {
         private readonly MeetupContext _meetupContext;
-        private readonly IMapper _mapper;
 
-        public AccountController(MeetupContext meetupContext, IMapper mapper)
+        public AccountController(MeetupContext meetupContext)
         {
             _meetupContext = meetupContext;
-            _mapper = mapper;
         }
 
         [HttpPost("register")]
