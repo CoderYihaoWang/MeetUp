@@ -11,7 +11,7 @@ namespace MeetUp.Filters
     public class TimeTrackFilter : IActionFilter
     {
         private Stopwatch _stopwatch;
-        private ILogger<TimeTrackFilter> _logger;
+        private readonly ILogger<TimeTrackFilter> _logger;
 
         public TimeTrackFilter(ILogger<TimeTrackFilter> logger)
         {
@@ -24,7 +24,7 @@ namespace MeetUp.Filters
             var milliseconds = _stopwatch.ElapsedMilliseconds;
             var action = context.ActionDescriptor.DisplayName;
 
-            _logger.LogDebug($"Action {action} executed in {milliseconds} ms");
+            _logger.LogInformation($"Action {action} executed in {milliseconds} ms");
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
