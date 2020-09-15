@@ -12,6 +12,7 @@ namespace MeetUp.Controllers
     [Route("file")]
     public class FileController : ControllerBase
     {
+        [ResponseCache(Duration = 1200, VaryByQueryKeys = new string[] {"name"})]
         [HttpGet]
         [Authorize]
         public ActionResult GetFile(string name)
