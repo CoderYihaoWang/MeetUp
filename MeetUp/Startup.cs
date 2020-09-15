@@ -108,8 +108,9 @@ namespace MeetUp
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MeetupSeeder meetupSeeder)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MeetupSeeder meetupSeeder, MeetupContext context)
         {
+            RunMigrations(context);
             app.UseResponseCaching();
             app.UseStaticFiles();
             app.UseCors("FrontEndClient");
@@ -138,6 +139,15 @@ namespace MeetUp
             });
 
             meetupSeeder.Seed();
+        }
+
+        private void RunMigrations(MeetupContext context)
+        {
+            var pendingMigrations = context.Database.GetPendingMigrations();
+            if (pendingMigrations.Any())
+            {
+                context.Database.Migrate();
+            }
         }
     }
 }
