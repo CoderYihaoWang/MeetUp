@@ -92,11 +92,21 @@ namespace MeetUp
             services.AddScoped<IAuthorizationHandler, ResourceOperationHandler>();
 
             services.AddScoped<TimeTrackFilter>();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("FrontEndClient", builder => builder
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                // the url of the front end client
+                .WithOrigins("http://localhost:3000"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env, MeetupSeeder meetupSeeder)
         {
+            app.UseCors("FrontEndClient");
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {

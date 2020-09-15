@@ -10,7 +10,7 @@ namespace MeetUp.Filters
 {
     public class NationalityFilter : Attribute, IAuthorizationFilter
     {
-        private string[] _nationalities;
+        private readonly string[] _nationalities;
 
         public NationalityFilter(string nationalities)
         {
