@@ -8,13 +8,15 @@ namespace MeetUp.Entity
 {
     public class MeetupContext : DbContext
     {
-        private readonly string _connectionString = @"Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
-
         public DbSet<Meetup> Meetups { get; set; }
         public DbSet<Lecture> Lectures { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<User> Users { get; set; }
+
+        public MeetupContext(DbContextOptions<MeetupContext> options) : base(options)
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -32,11 +34,6 @@ namespace MeetUp.Entity
 
             modelBuilder.Entity<User>()
                 .HasOne(u => u.Role);
-        }
-
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseSqlServer(_connectionString);
         }
     }
 }
